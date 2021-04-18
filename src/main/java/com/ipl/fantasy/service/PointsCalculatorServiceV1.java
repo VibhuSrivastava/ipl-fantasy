@@ -40,14 +40,17 @@ public class PointsCalculatorServiceV1 {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String scoreBoard() throws IOException {
+
         OkHttpClient client = new OkHttpClient();
+
         Request request = new Request.Builder()
-            .url("https://cricket-live-data.p.rapidapi.com/match/2432999")
+            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid=50809")
             .get()
-            .addHeader("x-rapidapi-key", "324bf8c4d5msh3773ac0c5cad4fep195032jsnc47fc03c4a37")
-            .addHeader("x-rapidapi-host", "cricket-live-data.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", "dc1d36d44dmsh35e298098fcc16dp1317bfjsn530fdb81dab5")
+            .addHeader("x-rapidapi-host", "dev132-cricket-live-scores-v1.p.rapidapi.com")
             .build();
-        Response response = null;
+
+        Response response = client.newCall(request).execute();
         System.out.println(request);
         try {
             response = client.newCall(request).execute();
@@ -56,6 +59,27 @@ public class PointsCalculatorServiceV1 {
             e.printStackTrace();
         }
 
+
         return response.body().string();
     }
+
+    @GET
+    @Path("/v1/series")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String series() throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/matchseries.php?seriesid=2780")
+            .get()
+            .addHeader("x-rapidapi-key", "dc1d36d44dmsh35e298098fcc16dp1317bfjsn530fdb81dab5")
+            .addHeader("x-rapidapi-host", "dev132-cricket-live-scores-v1.p.rapidapi.com")
+            .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+
 }
