@@ -25,7 +25,7 @@ import java.util.HashMap;
     "fallOfWicketOver",
     "fowOrder"
 })
-@Generated("jsonschema2pojo")
+
 public class Batsman {
 
   @JsonProperty("id")

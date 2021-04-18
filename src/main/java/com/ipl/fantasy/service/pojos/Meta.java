@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "matchTypeId",
     "series"
 })
-@Generated("jsonschema2pojo")
+
 public class Meta {
 
   @JsonProperty("matchTypeId")

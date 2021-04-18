@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "runRate",
     "requiredRunRate"
 })
-@Generated("jsonschema2pojo")
+
 public class Inning {
 
   @JsonProperty("id")

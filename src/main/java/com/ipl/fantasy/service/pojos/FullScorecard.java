@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "innings"
 })
-@Generated("jsonschema2pojo")
+
 public class FullScorecard {
 
   @JsonProperty("innings")

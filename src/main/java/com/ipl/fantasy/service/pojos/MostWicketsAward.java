@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "overs",
     "economy"
 })
-@Generated("jsonschema2pojo")
+
 public class MostWicketsAward {
 
   @JsonProperty("id")

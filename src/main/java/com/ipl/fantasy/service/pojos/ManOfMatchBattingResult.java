@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "howOut",
     "fowOrder"
 })
-@Generated("jsonschema2pojo")
+
 public class ManOfMatchBattingResult {
 
   @JsonProperty("id")

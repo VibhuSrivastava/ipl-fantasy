@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "mostRunsAwardPlayerResults",
     "mostWicketsAwardPlayerResults"
 })
-@Generated("jsonschema2pojo")
+
 public class FullScorecardAwards {
 
   @JsonProperty("mostRunsAward")

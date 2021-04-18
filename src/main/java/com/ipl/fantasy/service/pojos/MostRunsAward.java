@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "strikeRate",
     "fowOrder"
 })
-@Generated("jsonschema2pojo")
+
 public class MostRunsAward {
 
   @JsonProperty("id")

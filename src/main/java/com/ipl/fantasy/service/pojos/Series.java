@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id",
     "name"
 })
-@Generated("jsonschema2pojo")
+
 public class Series {
 
   @JsonProperty("id")

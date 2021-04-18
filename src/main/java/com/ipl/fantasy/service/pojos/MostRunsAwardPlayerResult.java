@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "fallOfWicketOver",
     "fowOrder"
 })
-@Generated("jsonschema2pojo")
+
 public class MostRunsAwardPlayerResult {
 
   @JsonProperty("id")

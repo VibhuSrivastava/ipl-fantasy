@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "noBalls",
     "economy"
 })
-@Generated("jsonschema2pojo")
+
 public class Bowler {
 
   @JsonProperty("id")
