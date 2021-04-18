@@ -34,4 +34,5 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.19'
     testCompile 'org.eclipse.jetty:jetty-server:9.4.7.v20170914'
     testCompile 'org.eclipse.jetty:jetty-webapp:9.4.7.v20170914'
+    compile 'com.google.code.gson:gson:2.7'
 }
