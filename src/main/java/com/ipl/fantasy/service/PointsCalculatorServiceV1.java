@@ -5,7 +5,15 @@ import com.google.gson.Gson;
 import com.ipl.fantasy.api.PointsRequest;
 import com.ipl.fantasy.api.PointsResponse;
 import com.ipl.fantasy.domain.PointsCalculator;
+import com.ipl.fantasy.service.pojos.Batsman;
+import com.ipl.fantasy.service.pojos.Bowler;
+import com.ipl.fantasy.service.pojos.Inning;
+import com.ipl.fantasy.service.pojos.ScorecardResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -35,7 +43,7 @@ public class PointsCalculatorServiceV1 {
         int points = 0;
         points = pointsCalculator.makeBatsmanDecision(pointsRequest.getRunsScored())
             + pointsCalculator.makeBowlerDecision(pointsRequest.getBallsBowled(), pointsRequest.getWickets(), pointsRequest.getRunsLeaked());
-        return new PointsResponse(points);
+        return null;
     }
 
     @GET
@@ -85,9 +93,8 @@ public class PointsCalculatorServiceV1 {
     public String allPlayerPoints() throws IOException {
 
         OkHttpClient client = getOkHttpClient();
-
         Request request = new Request.Builder()
-            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid=50809")
+            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid=50820")
             .get()
             .addHeader("x-rapidapi-key", "dc1d36d44dmsh35e298098fcc16dp1317bfjsn530fdb81dab5")
             .addHeader("x-rapidapi-host", "dev132-cricket-live-scores-v1.p.rapidapi.com")
@@ -95,9 +102,31 @@ public class PointsCalculatorServiceV1 {
 
         Gson gson = new Gson();
         ResponseBody responseBody = client.newCall(request).execute().body();
-        //SimpleEntity entity = gson.fromJson(responseBody.string(), SimpleEntity.class);
+        ScorecardResponse scorecardResponse = gson.fromJson(responseBody.string(), ScorecardResponse.class);
 
-        return responseBody.string();
+        //TODO : Move this somewhere else
+        List<Inning> innings = scorecardResponse.getFullScorecard().getInnings();
+        Map<String, Integer> batsmenPoints = new HashMap<>();
+        Map<String, Float> bowlerPoints = new HashMap<>();
+
+        List<Batsman> batsmen = innings.stream().flatMap(batsman -> batsman.getBatsmen().stream()).collect(Collectors.toList());
+        for (int i = 0; i < batsmen.size(); i++) {
+            int runs = !batsmen.get(i).getRuns().isEmpty() ? Integer.parseInt(batsmen.get(i).getRuns()):0;
+            batsmenPoints.put(batsmen.get(i).getName(), runs);
+        }
+
+        List<Bowler> bowlers = innings.stream().flatMap(bowler -> bowler.getBowlers().stream()).collect(Collectors.toList());
+        for(int i=0; i<bowlers.size();i++){
+            Bowler bowler = bowlers.get(i);
+            float runsConceded = !bowler.getRunsConceded().isEmpty() ? Float.parseFloat(bowler.getRunsConceded()):0;
+            float wickets = !bowler.getWickets().isEmpty()? Float.parseFloat(bowler.getWickets()):0;
+            float overs = (!bowler.getOvers().isEmpty() ? (Float.parseFloat(bowler.getOvers())) : 0);
+            float balls = overs*6;
+            float points=(wickets*25)+(balls-runsConceded);
+            bowlerPoints.put(bowlers.get(i).getName(), points);
+        }
+
+        return gson.toJson(new PointsResponse(batsmenPoints, bowlerPoints));
     }
 
     @NotNull
