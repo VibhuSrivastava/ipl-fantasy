@@ -21,6 +21,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -90,11 +91,12 @@ public class PointsCalculatorServiceV1 {
     @Path("/v1/allplayerpoints")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String allPlayerPoints() throws IOException {
+    public String allPlayerPoints(@QueryParam("matchId") String matchId) throws IOException {
 
         OkHttpClient client = getOkHttpClient();
         Request request = new Request.Builder()
-            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid=50820")
+//            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid=50820")
+            .url("https://dev132-cricket-live-scores-v1.p.rapidapi.com/scorecards.php?seriesid=2780&matchid="+matchId)
             .get()
             .addHeader("x-rapidapi-key", "dc1d36d44dmsh35e298098fcc16dp1317bfjsn530fdb81dab5")
             .addHeader("x-rapidapi-host", "dev132-cricket-live-scores-v1.p.rapidapi.com")
