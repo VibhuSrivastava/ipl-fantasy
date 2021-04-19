@@ -106,12 +106,12 @@ public class PointsCalculatorServiceV1 {
 
         //TODO : Move this somewhere else
         List<Inning> innings = scorecardResponse.getFullScorecard().getInnings();
-        Map<String, Integer> batsmenPoints = new HashMap<>();
+        Map<String, Float> batsmenPoints = new HashMap<>();
         Map<String, Float> bowlerPoints = new HashMap<>();
 
         List<Batsman> batsmen = innings.stream().flatMap(batsman -> batsman.getBatsmen().stream()).collect(Collectors.toList());
         for (int i = 0; i < batsmen.size(); i++) {
-            int runs = !batsmen.get(i).getRuns().isEmpty() ? Integer.parseInt(batsmen.get(i).getRuns()):0;
+            Float runs = !batsmen.get(i).getRuns().isEmpty() ? Float.parseFloat(batsmen.get(i).getRuns()):0;
             batsmenPoints.put(batsmen.get(i).getName(), runs);
         }
 
@@ -126,7 +126,11 @@ public class PointsCalculatorServiceV1 {
             bowlerPoints.put(bowlers.get(i).getName(), points);
         }
 
-        return gson.toJson(new PointsResponse(batsmenPoints, bowlerPoints));
+        bowlerPoints.forEach(
+            (key, value) -> batsmenPoints.merge( key, value, (v1, v2) -> v1+v2)
+        );
+
+        return gson.toJson(batsmenPoints);
     }
 
     @NotNull
